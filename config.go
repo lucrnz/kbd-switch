@@ -39,7 +39,7 @@ func (cfg *ConfigFile) Load() error {
 
 // Save is...
 func (cfg *ConfigFile) Save() error {
-	jsonBytes, err := json.Marshal(cfg)
+	jsonBytes, err := json.MarshalIndent(cfg, "", "\t")
 	if err != nil {
 		return fmt.Errorf("error saving config file:\n\t%s", err.Error())
 	}

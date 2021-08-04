@@ -30,6 +30,7 @@ func main() {
 		cfg.CurrentLayout = 0 // use the First one
 	}
 
+	fmt.Println("changing keyboard layout to: " + cfg.Layouts[cfg.CurrentLayout])
 	cmd := exec.Command("setxkbmap", cfg.Layouts[cfg.CurrentLayout])
 	err := cmd.Run()
 	if err != nil {
@@ -37,9 +38,8 @@ func main() {
 	}
 
 	if cfg.SendNotification {
-		cfg.NotificationMessage = strings.Replace(cfg.NotificationMessage,
-			"%layout%", cfg.Layouts[cfg.CurrentLayout], 0)
-		cmd := exec.Command(cfg.NotificationCommand, cfg.NotificationMessage)
+		msg := strings.ReplaceAll(cfg.NotificationMessage, "%layout%", cfg.Layouts[cfg.CurrentLayout])
+		cmd := exec.Command(cfg.NotificationCommand, msg)
 		err := cmd.Run()
 		if err != nil {
 			panic(fmt.Errorf("cannot executing NotificationCommand:\n\t%s", err.Error()))
