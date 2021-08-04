@@ -1,3 +1,9 @@
+# Config file
+config.json
+
+# Programe executable
+kbd-switch
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
