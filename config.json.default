@@ -1,0 +1,10 @@
+{
+  "CurrentLayout": 0,
+  "Layouts": [
+    "us",
+    "latam"
+  ],
+  "SendNotification": true,
+  "NotificationCommand": "notify-send",
+  "NotificationMessage": "Changed keyboard to %layout%"
+}
