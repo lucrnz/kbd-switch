@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -33,6 +34,14 @@ func (cfg *ConfigFile) Load() error {
 	err = json.Unmarshal(cfgFileBytes, cfg)
 	if err != nil {
 		return fmt.Errorf("error loading config file:\n\t%s", err.Error())
+	}
+
+	if cfg.Layouts == nil {
+		return errors.New("config file is missing Layouts array")
+	}
+
+	if len(cfg.Layouts) <= 1 {
+		return errors.New("this program needs more than one layout to work correctly")
 	}
 	return nil
 }

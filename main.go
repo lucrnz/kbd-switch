@@ -1,10 +1,7 @@
 package main
 
 import (
-	"errors"
-	"fmt"
-	"os/exec"
-	"strings"
+	"os"
 )
 
 var (
@@ -18,36 +15,35 @@ func init() {
 	}
 }
 
-func main() {
-	lTotal := len(cfg.Layouts)
-
-	if lTotal <= 1 {
-		panic(errors.New("this program needs more than one layout to work correctly"))
+func operationStartup() {
+	err := changeKeyboardLayout(cfg.Layouts[cfg.CurrentLayout], cfg.SendNotification, cfg.NotificationCommand, cfg.NotificationMessage)
+	if err != nil {
+		panic(err)
 	}
+}
 
+func operationCycle() {
+	lTotal := len(cfg.Layouts)
 	cfg.CurrentLayout++
 	if cfg.CurrentLayout >= lTotal {
-		cfg.CurrentLayout = 0 // use the First one
+		cfg.CurrentLayout = 0
 	}
 
-	fmt.Println("changing keyboard layout to: " + cfg.Layouts[cfg.CurrentLayout])
-	cmd := exec.Command("setxkbmap", cfg.Layouts[cfg.CurrentLayout])
-	err := cmd.Run()
+	err := changeKeyboardLayout(cfg.Layouts[cfg.CurrentLayout], cfg.SendNotification, cfg.NotificationCommand, cfg.NotificationMessage)
 	if err != nil {
-		panic(fmt.Errorf("cannot executing command setxkbmap:\n\t%s", err.Error()))
-	}
-
-	if cfg.SendNotification {
-		msg := strings.ReplaceAll(cfg.NotificationMessage, "%layout%", cfg.Layouts[cfg.CurrentLayout])
-		cmd := exec.Command(cfg.NotificationCommand, msg)
-		err := cmd.Run()
-		if err != nil {
-			panic(fmt.Errorf("cannot executing NotificationCommand:\n\t%s", err.Error()))
-		}
+		panic(err)
 	}
 
 	err = cfg.Save()
 	if err != nil {
 		panic(err)
+	}
+}
+
+func main() {
+	if os.Args[1] == "--startup" {
+		operationStartup()
+	} else {
+		operationCycle()
 	}
 }
