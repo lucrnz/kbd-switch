@@ -41,7 +41,7 @@ func operationCycle() {
 }
 
 func main() {
-	if os.Args[1] == "--startup" {
+	if len(os.Args) >= 2 && os.Args[1] == "--startup" {
 		operationStartup()
 	} else {
 		operationCycle()

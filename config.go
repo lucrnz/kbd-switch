@@ -40,7 +40,7 @@ func (cfg *ConfigFile) Load() error {
 		return errors.New("config file is missing Layouts array")
 	}
 
-	if len(cfg.Layouts) <= 1 {
+	if len(cfg.Layouts) < 2 {
 		return errors.New("this program needs more than one layout to work correctly")
 	}
 	return nil
