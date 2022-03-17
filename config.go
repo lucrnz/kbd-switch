@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// ConfigFile contains current status about the program
 type ConfigFile struct {
 	CurrentLayout       int
 	Layouts             []string
@@ -19,11 +20,9 @@ type ConfigFile struct {
 // Load is...
 func (cfg *ConfigFile) Load() error {
 	cfg.filePath = "./config.json"
-	_, err := os.Stat(cfg.filePath)
-	if err != nil {
+	if _, err := os.Stat(cfg.filePath); err != nil {
 		cfg.filePath = os.Getenv("HOME") + "/.config/kbd-switch.json"
-		_, err := os.Stat(cfg.filePath)
-		if err != nil {
+		if _, err := os.Stat(cfg.filePath); err != nil {
 			return fmt.Errorf("cannot find config file:\n\t%s", err.Error())
 		}
 	}
@@ -31,8 +30,7 @@ func (cfg *ConfigFile) Load() error {
 	if err != nil {
 		return fmt.Errorf("error reading config file:\n\t%s", err.Error())
 	}
-	err = json.Unmarshal(cfgFileBytes, cfg)
-	if err != nil {
+	if err = json.Unmarshal(cfgFileBytes, cfg); err != nil {
 		return fmt.Errorf("error loading config file:\n\t%s", err.Error())
 	}
 
@@ -52,8 +50,7 @@ func (cfg *ConfigFile) Save() error {
 	if err != nil {
 		return fmt.Errorf("error saving config file:\n\t%s", err.Error())
 	}
-	err = os.WriteFile(cfg.filePath, jsonBytes, 0644)
-	if err != nil {
+	if err = os.WriteFile(cfg.filePath, jsonBytes, 0644); err != nil {
 		return fmt.Errorf("error saving config file:\n\t%s", err.Error())
 	}
 	return nil
