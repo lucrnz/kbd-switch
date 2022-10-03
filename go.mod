@@ -1,3 +1,3 @@
-module github.com/lucie-cupcakes/kbd-switch
+module git.lucdev.net/luc/kbd-switch
 
-go 1.18
+go 1.19

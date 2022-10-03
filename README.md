@@ -15,7 +15,7 @@ You can found a detailed description [here](https://github.com/golang/go/wiki/Mi
 
 **Example:** `export GOAMD64=v2`
 
-	git clone https://github.com/lucie-cupcakes/kbd-switch.git
+	git clone https://git.lucdev.net/luc/kbd-switch.git
 	cd kbd-switch
 	make
 	sudo make install
