@@ -1,3 +1,3 @@
-module git.lucdev.net/luc/kbd-switch
+module github.com/lucrnz/kbd-switch
 
 go 1.19
